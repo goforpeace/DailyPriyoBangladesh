@@ -1,7 +1,7 @@
 import HeadLines from "@/components/HeadLines";
 import Title from "@/components/Title";
 import DetailsNews from "@/components/news/DetailsNews";
-import DetailsNewsCol from "@/components/news/DetailsNewsCol";
+import DetailsNewsCol from "@/components/news/DetailsNewsCOl";
 import DetailsNewsRow from "@/components/news/DetailsNewsRow";
 import LatestNews from "@/components/news/LatestNews";
 import PopularNews from "@/components/news/PopularNews";
@@ -13,7 +13,7 @@ import { base_api_url } from "@/config/config";
 const Home = async () => {
   const news_data = await fetch(`${base_api_url}/api/all/news`, {
     next: {
-      revalidate: 5,
+      revalidate: 3,
     },
   });
 
@@ -124,4 +124,3 @@ const Home = async () => {
   );
 };
 export default Home;
-
