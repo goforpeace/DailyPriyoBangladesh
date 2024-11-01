@@ -13,7 +13,7 @@ import { base_api_url } from "@/config/config";
 const Home = async () => {
   const news_data = await fetch(`${base_api_url}/api/all/news`, {
     next: {
-      revalidate: 3,
+      revalidate: 5,
     },
   });
 
