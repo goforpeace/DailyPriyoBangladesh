@@ -173,7 +173,7 @@
 import HeadLines from "@/components/HeadLines";
 import Title from "@/components/Title";
 import DetailsNews from "@/components/news/DetailsNews";
-import DetailsNewsCol from "@/components/news/DetailsNewsCol";
+import DetailsNewsCol from "@/components/news/DetailsNewsCOl";
 import DetailsNewsRow from "@/components/news/DetailsNewsRow";
 import LatestNews from "@/components/news/LatestNews";
 import PopularNews from "@/components/news/PopularNews";
@@ -183,36 +183,15 @@ import Footer from "@/components/Footer";
 import { base_api_url } from "@/config/config";
 
 const Home = async () => {
-  // const news_data = await fetch(`${base_api_url}/api/all/news`, {
-  //   next: {
-  //     revalidate: 5,
-  //   },
-  // });
+  const news_data = await fetch(`${base_api_url}/api/all/news`, {
+    next: {
+      revalidate: 5,
+    },
+  });
 
-  // let news = await news_data?.json();
+  let news = await news_data?.json();
 
-  // news = news.news
-  let news;
-    try {
-        const news_data = await fetch(`${base_api_url}/api/all/news`, {
-            next: {
-                revalidate: 5,
-            },
-        });
-    
-        if (!news_data.ok) {
-            const errorText = await news_data.text();
-            console.error("API returned an error:", errorText);
-            throw new Error(`API request failed with status: ${news_data.status}`);
-        }
-    
-        const data = await news_data.json();
-        news = data?.news || {};
-} catch (error) {
-    console.error("Error fetching news data:", error);
-    news = {}; // Assign an empty object to prevent rendering errors
-}
-
+  news = news.news
   
   return (
     <div>
