@@ -10,17 +10,19 @@ import NewsCard from "@/components/news/items/NewsCard";
 import Footer from "@/components/Footer";
 import { base_api_url } from "@/config/config";
 
-const Home = async () => {
-  let news = {
-    Education: [],
-    Technology: [],
-    Sports: [],
-    Health: [],
-    Travel: [],
-    Politics: [],
-    International: []
-  };
+// List of categories you want to show in the navigation bar
+const categories = [
+  "Education",
+  "Technology",
+  "Sports",
+  "Health",
+  "Travel",
+  "Politics",
+  "International",
+];
 
+const Home = async () => {
+  let news;
   try {
     const news_data = await fetch(`${base_api_url}/api/all/news`, {
       next: { revalidate: 5 },
@@ -33,130 +35,121 @@ const Home = async () => {
     }
 
     const data = await news_data.json();
-    news = data?.news || news; // Fallback to the default structure if API data is empty
+    news = data?.news || {};
   } catch (error) {
     console.error("Error fetching news data:", error);
+    news = {}; // Assign an empty object to prevent rendering errors
   }
 
   return (
     <div>
+      {/* Navigation Bar */}
+      <nav>
+        <ul className="flex space-x-4 p-4 bg-red-600 text-white">
+          <li><a href="/">Home</a></li>
+          {categories.map((category, index) => (
+            <li key={index}>
+              <a href={`/${category.toLowerCase()}`}>{category}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
       <main>
+        {/* HeadLines Component */}
         <HeadLines news={news} />
+
+        {/* Main content section */}
         <div className="bg-slate-100">
           <div className="px-4 md:px-8 py-8">
             <div className="flex flex-wrap">
+              {/* Latest News Section */}
               <div className="w-full lg:w-6/12">
                 {news["Education"]?.length ? (
                   <LatestNews news={news["Education"]} />
                 ) : (
-                  <p>No education news available</p>
+                  <p>No latest news available</p>
                 )}
               </div>
+
+              {/* Technology News */}
               <div className="w-full lg:w-6/12 mt-5 lg:mt-0">
                 <div className="flex w-full flex-col gap-y-[14px] pl-0 lg:pl-2">
                   <Title title="Technology" />
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-[14px]">
-                    {news["Technology"]?.length ? (
-                      news["Technology"].map((item, i) => {
-                        if (i < 4) {
-                          return <SimpleNewsCard item={item} key={i} />;
-                        }
-                      })
-                    ) : (
-                      <p>No technology news available</p>
-                    )}
+                    {news["Technology"]?.map((item, i) => {
+                      if (i < 4) {
+                        return <SimpleNewsCard item={item} key={i} />;
+                      }
+                    })}
                   </div>
                 </div>
               </div>
             </div>
-            <PopularNews type="Popular news" news={news["Travel"] || []} />
-            {/* first section */}
+
+            {/* Popular News Section */}
+            <PopularNews type="Popular news" news={news["Travel"]} />
+
+            {/* First News Section */}
             <div className="w-full">
               <div className="flex flex-wrap">
                 <div className="w-full lg:w-8/12">
-                  {news["Sports"]?.length ? (
+                  <DetailsNewsRow
+                    news={news["Sports"]}
+                    category="Sports"
+                    type="details-news"
+                  />
+                  <DetailsNews news={news["Health"]} category="Health" />
+                </div>
+                <div className="w-full lg:w-4/12">
+                  <DetailsNewsCol
+                    news={news["Education"]}
+                    category="Education"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Second News Section */}
+            <div className="w-full">
+              <div className="flex flex-wrap">
+                <div className="w-full lg:w-4/12">
+                  <div className="pr-2">
+                    <DetailsNewsCol news={news["Politics"]} category="Politics" />
+                  </div>
+                </div>
+                <div className="w-full lg:w-8/12">
+                  <div className="pl-2">
                     <DetailsNewsRow
-                      news={news["Sports"]}
-                      category="Sports"
+                      news={news["Travel"]}
+                      category="Travel"
                       type="details-news"
                     />
-                  ) : (
-                    <p>No sports news available</p>
-                  )}
-                  {news["Health"]?.length ? (
-                    <DetailsNews news={news["Health"]} category="Health" />
-                  ) : (
-                    <p>No health news available</p>
-                  )}
-                </div>
-                <div className="w-full lg:w-4/12">
-                  {news["Education"]?.length ? (
-                    <DetailsNewsCol news={news["Education"]} category="Education" />
-                  ) : (
-                    <p>No education news available</p>
-                  )}
-                </div>
-              </div>
-            </div>
-            {/* 2nd section */}
-            <div className="w-full">
-              <div className="flex flex-wrap">
-                <div className="w-full lg:w-4/12">
-                  {news["Politics"]?.length ? (
-                    <div className="pr-2">
-                      <DetailsNewsCol news={news["Politics"]} category="Politics" />
-                    </div>
-                  ) : (
-                    <p>No politics news available</p>
-                  )}
-                </div>
-                <div className="w-full lg:w-8/12">
-                  {news["Travel"]?.length ? (
-                    <div className="pl-2">
-                      <DetailsNewsRow
-                        news={news["Travel"]}
-                        category="Travel"
-                        type="details-news"
-                      />
-                    </div>
-                  ) : (
-                    <p>No travel news available</p>
-                  )}
-                  {news["Education"]?.length ? (
                     <DetailsNews news={news["Education"]} category="International" />
-                  ) : (
-                    <p>No international news available</p>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
-            {/* 3rd section */}
+
+            {/* Third News Section */}
             <div className="w-full">
               <div className="flex flex-wrap">
                 <div className="w-full lg:w-8/12">
-                  {news["Technology"]?.length ? (
-                    <div>
-                      <DetailsNewsRow
-                        news={news["Technology"]}
-                        category="Technology"
-                        type="details-news"
-                      />
-                    </div>
-                  ) : (
-                    <p>No technology news available</p>
-                  )}
+                  <div>
+                    <DetailsNewsRow
+                      news={news["Technology"]}
+                      category="Technology"
+                      type="details-news"
+                    />
+                  </div>
                 </div>
                 <div className="w-full lg:w-4/12">
                   <div className="pl-2">
                     <Title title="Recent news" />
                     <div className="grid grid-cols-1 gap-y-[14px] mt-4">
-                      {news["Sports"]?.length ? (
-                        news["Sports"].map((item, i) => (
-                          <NewsCard item={item} key={i} />
-                        ))
-                      ) : (
-                        <p>No sports news available</p>
-                      )}
+                      {news["Sports"]?.map((item, i) => (
+                        <NewsCard item={item} key={i} />
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -165,6 +158,8 @@ const Home = async () => {
           </div>
         </div>
       </main>
+
+      {/* Footer */}
       <Footer />
     </div>
   );
