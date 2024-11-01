@@ -65,7 +65,7 @@ const Home = async () => {
             <div className="flex flex-wrap">
               {/* Latest News Section */}
               <div className="w-full lg:w-6/12">
-                {news["Education"]?.length ? (
+                {news["Education"] && news["Education"].length ? (
                   <LatestNews news={news["Education"]} />
                 ) : (
                   <p>No latest news available</p>
@@ -77,7 +77,7 @@ const Home = async () => {
                 <div className="flex w-full flex-col gap-y-[14px] pl-0 lg:pl-2">
                   <Title title="Technology" />
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-[14px]">
-                    {news["Technology"]?.map((item, i) => {
+                    {news["Technology"] && news["Technology"].map((item, i) => {
                       if (i < 4) {
                         return <SimpleNewsCard item={item} key={i} />;
                       }
@@ -88,22 +88,22 @@ const Home = async () => {
             </div>
 
             {/* Popular News Section */}
-            <PopularNews type="Popular news" news={news["Travel"]} />
+            <PopularNews type="Popular news" news={news["Travel"] || []} />
 
             {/* First News Section */}
             <div className="w-full">
               <div className="flex flex-wrap">
                 <div className="w-full lg:w-8/12">
                   <DetailsNewsRow
-                    news={news["Sports"]}
+                    news={news["Sports"] || []}
                     category="Sports"
                     type="details-news"
                   />
-                  <DetailsNews news={news["Health"]} category="Health" />
+                  <DetailsNews news={news["Health"] || []} category="Health" />
                 </div>
                 <div className="w-full lg:w-4/12">
                   <DetailsNewsCol
-                    news={news["Education"]}
+                    news={news["Education"] || []}
                     category="Education"
                   />
                 </div>
@@ -115,17 +115,17 @@ const Home = async () => {
               <div className="flex flex-wrap">
                 <div className="w-full lg:w-4/12">
                   <div className="pr-2">
-                    <DetailsNewsCol news={news["Politics"]} category="Politics" />
+                    <DetailsNewsCol news={news["Politics"] || []} category="Politics" />
                   </div>
                 </div>
                 <div className="w-full lg:w-8/12">
                   <div className="pl-2">
                     <DetailsNewsRow
-                      news={news["Travel"]}
+                      news={news["Travel"] || []}
                       category="Travel"
                       type="details-news"
                     />
-                    <DetailsNews news={news["Education"]} category="International" />
+                    <DetailsNews news={news["International"] || []} category="International" />
                   </div>
                 </div>
               </div>
@@ -137,7 +137,7 @@ const Home = async () => {
                 <div className="w-full lg:w-8/12">
                   <div>
                     <DetailsNewsRow
-                      news={news["Technology"]}
+                      news={news["Technology"] || []}
                       category="Technology"
                       type="details-news"
                     />
@@ -147,7 +147,7 @@ const Home = async () => {
                   <div className="pl-2">
                     <Title title="Recent news" />
                     <div className="grid grid-cols-1 gap-y-[14px] mt-4">
-                      {news["Sports"]?.map((item, i) => (
+                      {news["Sports"] && news["Sports"].map((item, i) => (
                         <NewsCard item={item} key={i} />
                       ))}
                     </div>
@@ -166,6 +166,7 @@ const Home = async () => {
 };
 
 export default Home;
+
 
 
 
