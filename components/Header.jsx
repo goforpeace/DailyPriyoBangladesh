@@ -26,7 +26,7 @@ const Header = () => {
                         <div className='md:w-4/12 w-full'>
                             <div className='flex flex-col justify-center items-center md:items-start'>
                                 <Image className='w-[200px] h-[45px]' alt='logo' src={logo} />
-                                <h2 className='text-[#cccccc]'>NEWS PORTAL MERN STACK NextJs</h2>
+                                <h2 className='text-[#cccccc]'>বিশ্বস্ত সংবাদ, প্রতিদিনের আপডেট</h2>
                             </div>
                         </div>
                         <div className='md:w-8/12 w-full hidden md:block'>
