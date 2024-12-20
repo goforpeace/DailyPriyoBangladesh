@@ -18,7 +18,7 @@ const HeadLines = ({ news }) => {
       <div className='flex md:w-[170px] w-full bg-[#dddddd] relative pr-4'>
         <div className='md:pl-8 pl-4 w-full py-2 flex justify-start items-center gap-x-1'>
           <span><LoadingSpinner type='Ripple' colors={['#800000', '#c80000']} size={'30px'} /></span>
-          <h2 className='text-[#333333] font-semibold text-lg'>Headlines</h2>
+          <h2 className='text-[#333333] font-semibold text-lg'>শিরোনাম</h2>
         </div>
       </div>
       <div className='flex-1 pt-4'>
